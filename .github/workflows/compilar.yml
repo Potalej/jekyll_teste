@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: jekyll/jekyll:4.3.2
+      image: jekyll/jekyll:stable
 
     steps:
       - uses: actions/checkout@v4
