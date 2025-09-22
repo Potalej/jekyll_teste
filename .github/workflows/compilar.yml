@@ -1,44 +1,29 @@
-# This is a basic workflow to help you get started with Actions
+name: Build and Deploy Jekyll
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: jekyll/jekyll:4.3.2
 
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Cache de dependências
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+      - name: Install dependencies
+        run: bundle install
 
-      - uses: jeffreytse/jekyll-deploy-action@v0.6.0
+      - name: Build Jekyll
+        run: jekyll build
+
+      - name: Deploy to build branch
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          provider: 'github'         # O Padrao eh github
-          token: ${{ secrets.GITHUB_TOKEN }} # Eh o Personal Access Token (PAT)
-          branch: 'site'         # Branch onde sera feito o deploy
-          jekyll_src: './'           # Por padrao eh o diretorio raiz
-          jekyll_cfg: '_config.yml'  # Por padrao eh o _config.yml
-          jekyll_baseurl: ''         # O padrao eh o que esta no _config.yml
-          bundler_ver: '2.5.0'      # Versao mais recente do bundler
-          cname: ''                  # O padrao eh nao usar um cname
-          actor: ''                  # O padrao eh GITHUB_ACTOR
-          pre_build_commands: ''     # Instalando dependencias adicionais (Arch Linux)
-          ruby_ver: '3.2.0'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: build
+          force_orphan: true
