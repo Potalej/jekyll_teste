@@ -29,15 +29,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      - name: Instalar dependências
-        run: |
-          bundle config path vendor/bundle
-          bundle install
-
-      - name: Deploy para a branch build
-        uses: peaceiris/actions-gh-pages@v3
+      - uses: jeffreytse/jekyll-deploy-action@v0.6.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-          publish_branch: build
-          force_orphan: true
+          provider: 'github'         # O Padrao eh github
+          token: ${{ secrets.GITHUB_TOKEN }} # Eh o Personal Access Token (PAT)
+          branch: 'site'         # Branch onde sera feito o deploy
+          jekyll_src: './'           # Por padrao eh o diretorio raiz
+          jekyll_cfg: '_config.yml'  # Por padrao eh o _config.yml
+          jekyll_baseurl: ''         # O padrao eh o que esta no _config.yml
+          bundler_ver: '2.5.0'      # Versao mais recente do bundler
+          cname: ''                  # O padrao eh nao usar um cname
+          actor: ''                  # O padrao eh GITHUB_ACTOR
+          pre_build_commands: ''     # Instalando dependencias adicionais (Arch Linux)
+          ruby_ver: '3.2.0'
