@@ -9,9 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/planet42/jekyll:latest
+      image: ruby:3.1
 
     steps:
+      - name: Instalar Jekyll e dependências
+        run: |
+          gem install bundler -v 2.3.25
+          bundle install
+          bundle exec jekyll build
+    
       - uses: actions/checkout@v4
 
       - name: Install dependencies
