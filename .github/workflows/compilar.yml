@@ -16,17 +16,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: jekyll/jekyll:4.3.2  # ou a versão que você usa
 
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Instalar dependências e build
+      - name: Cache de dependências
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Instalar dependências
         run: |
+          bundle config path vendor/bundle
           bundle install
-          jekyll build
 
       - name: Deploy para a branch build
         uses: peaceiris/actions-gh-pages@v3
