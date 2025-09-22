@@ -26,7 +26,7 @@ jobs:
       - name: Deploy to build branch
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.SEMAP }}
           publish_dir: ./_site
           publish_branch: build
           force_orphan: true
