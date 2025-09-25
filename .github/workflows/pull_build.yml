@@ -19,7 +19,7 @@ jobs:
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ime.usp.br >> ~/.ssh/known_hosts
-
+          
       - name: Rodar git pull na máquina remota
         run: |
-          ssh oapotalej@ime.usp.br 'mkdir testeeeeeeeee'
+          ssh oapotalej@ime.usp.br 'cd teste_2/jekyll_teste && git pull origin main'
