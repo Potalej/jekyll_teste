@@ -22,4 +22,4 @@ jobs:
 
       - name: Rodar git pull na máquina remota
         run: |
-          ssh oapotalej@ime.usp.br 'cd teste_2/jekyll_teste && git pull origin main'
+          ssh oapotalej@ime.usp.br 'cd teste_2/jekyll_teste && git fetch --all && git reset --hard origin/build && git pull origin build'
