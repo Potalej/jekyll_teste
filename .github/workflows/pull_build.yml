@@ -22,6 +22,6 @@ jobs:
           
       - name: Rodar git pull na máquina remota
         run: |
-          ssh semap@ime.usp.br 'sh teste.sh'
+          ssh semap@ime.usp.br 'sh atualizar_site.sh'
 # ssh oapotalej@ime.usp.br 'cd teste_2 && rm -r -f jekyll_teste && git clone https://github.com/Potalej/jekyll_teste.git -b build jekyll_teste'
           
